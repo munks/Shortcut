@@ -13,9 +13,9 @@ HWND c_listView;
 int c_listViewIndex;
 
 LVINFO c_listViewInfo[LV_MAX_COL] = {
-	{L"Shortcut Name", 0.6},
-	{L"Type", 0.18},
-	{L"Hotkey", 0.18}
+	{L"Shortcut Name", 0.4},
+	{L"Type", 0.28},
+	{L"Hotkey", 0.28}
 };
 
 //Internal
