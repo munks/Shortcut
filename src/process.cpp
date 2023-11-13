@@ -58,7 +58,6 @@ void Process_CheckType (HWND hwnd, HWND ctrl) {
 	wchar_t txt[260];
 	wchar_t protocol[260];
 	DWORD type;
-	DWORD len;
 	
 	Edit_GetText(ctrl, txt, 260);
 	if (wcsncmp(&txt[1], L":\\", 2) == 0) {
@@ -79,15 +78,11 @@ void Process_CheckType (HWND hwnd, HWND ctrl) {
 		}
 	} else if (wcsstr(txt, L"://")) {
 		*wcsstr(txt, L"://") = L'\0';
-		if (RegGetValue(HKEY_CLASSES_ROOT, txt, NULL, RRF_RT_REG_SZ, NULL, &protocol, &(len = 260)) == ERROR_SUCCESS) {
-			if (wcsncmp(protocol, L"URL:", 4) == 0) {
-				swprintf(protocol, L"(%ls)", txt);
-				SetWindowText(GetDlgItem(hwnd, ID_STATIC_TYPE), protocol);
-				wcscpy(p_type, txt);
-				goto ENABLE;
-			} else {
-				goto DISABLE;
-			}
+		if (RegGetValue(HKEY_CLASSES_ROOT, txt, L"URL Protocol", RRF_RT_ANY, NULL, NULL, NULL) == ERROR_SUCCESS) {
+			swprintf(protocol, L"(%ls)", txt);
+			SetWindowText(GetDlgItem(hwnd, ID_STATIC_TYPE), protocol);
+			wcscpy(p_type, txt);
+			goto ENABLE;
 		} else {
 			goto DISABLE;
 		}
