@@ -99,6 +99,8 @@ void Menu_AddNotifyIcon () {
 }
 
 void Menu_RemoveNotifyIcon () {
+	me_nid.hWnd = m_main;
+	me_nid.uID = 0;
 	Shell_NotifyIcon(NIM_DELETE, &me_nid);
 }
 

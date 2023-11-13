@@ -223,7 +223,6 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine
 	Control_RefreshListView(m_main);
 	
 	//Add System Tray Notify Icon
-	Menu_RemoveNotifyIcon();
 	Menu_AddNotifyIcon();
 	Menu_MakeMenu();
 	
