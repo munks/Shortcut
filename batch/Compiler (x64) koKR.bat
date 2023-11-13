@@ -4,7 +4,7 @@ echo Compile Start
 rem Variable
 setlocal
 
-set FILES=main.cpp control.cpp menu.cpp log.cpp util.cpp process.cpp vk.cpp
+set FILES=main.cpp control.cpp menu.cpp log.cpp list.cpp util.cpp process.cpp vk.cpp
 
 rem Path
 if not exist ../bin mkdir ..\bin

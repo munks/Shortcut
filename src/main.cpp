@@ -46,7 +46,7 @@ void Main_VersionCheck (DWORD ver) {
 LRESULT CALLBACK MainProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	wchar_t key[50];
 	POINT cursor;
-	int msg;
+	RECT rect;
 	
 	#ifdef _DEBUG
 	//Debug_ConvertWindowMessage(uMsg);
@@ -102,6 +102,16 @@ LRESULT CALLBACK MainProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 						executionFunc(key);
 						Control_RefreshListView(hwnd);
 					}
+					break;
+				}
+				DialogEvent(ID_BUTTON_LIST) {
+					if(!IsWindowVisible(li_window)) {
+						//Set List Window Position
+						GetWindowRect(m_main, &rect);
+						SetWindowPos(li_window, HWND_TOPMOST, rect.left + 20, rect.top + 20, 0, 0, SWP_NOSIZE);
+					}
+					//Show List Window
+					ShowWindow(li_window, SW_SHOW);
 					break;
 				}
 				DialogEvent(ID_BUTTON_ICON) {
@@ -204,8 +214,9 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine
 							NULL, NULL, hInstance, NULL);
 	Util_CheckError(m_main);
 	
-	//Create Log/Hotkey Window
+	//Create Log/List Window
 	Log_CreateWindow(m_main);
+	List_CreateWindow(m_main);
 	
 	//Create Button (OPEN)
 	CreateButtonMacro(m_main, RUN, false, 380, 20, 90, 30);
@@ -218,6 +229,10 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine
 	
 	//Create Button (DELETE)
 	CreateButtonMacro(m_main, DELETE, false, 380, 140, 90, 30);
+	
+	//Create Button (LIST)
+	CreateButtonMacro(m_main, LIST, false, 380, 330, 90, 30);
+	
 	//Create List-View
 	Control_CreateListView(m_main, LIST_TOOLTIP, 10, 10, 360, 350, ID_LIST);
 	Control_RefreshListView(m_main);

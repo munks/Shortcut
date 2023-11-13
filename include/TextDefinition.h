@@ -8,6 +8,10 @@
 #define WINDOW_LOG_NAME				L"DualityFrame_Shortcut_Log"
 #define WINDOW_LOG_CAPTION			L"Log"
 
+//Window List
+#define WINDOW_LIST_NAME			L"DualityFrame_Shortcut_List"
+#define WINDOW_LIST_CAPTION			L"URL Protocols"
+
 //ID_BUTTON_RUN
 #define BUTTON_RUN_CAPTION			L"Run"
 #define BUTTON_RUN_TOOLTIP			L"Run Shortcut"
@@ -23,6 +27,10 @@
 //ID_BUTTON_DELETE
 #define BUTTON_DELETE_CAPTION		L"Delete"
 #define BUTTON_DELETE_TOOLTIP		L"Delete Selected Shortcut"
+
+//ID_BUTTON_LIST
+#define BUTTON_LIST_CAPTION			L"URL List"
+#define BUTTON_LIST_TOOLTIP			L"View URL Protocol List"
 
 //ID_LIST
 #define LIST_TOOLTIP				L"List Of Shortcuts"

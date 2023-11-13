@@ -65,13 +65,13 @@ void Menu_ExecuteNotifyEvent (WORD message) {
 			return;
 		}
 		case TN_MENU_LOG: {
-			if(!IsWindowVisible(l_window)) {
+			if(!IsWindowVisible(lo_window)) {
 				//Set Log Window Position
 				GetWindowRect(m_main, &rect);
-				SetWindowPos(l_window, HWND_TOPMOST, rect.left + 20, rect.top + 20, 0, 0, SWP_NOSIZE);
+				SetWindowPos(lo_window, HWND_TOPMOST, rect.left + 20, rect.top + 20, 0, 0, SWP_NOSIZE);
 			}
 			//Show Log Window
-			ShowWindow(l_window, SW_SHOW);
+			ShowWindow(lo_window, SW_SHOW);
 			break;
 		}
 		case TN_MENU_INIT: {

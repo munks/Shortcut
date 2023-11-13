@@ -2,8 +2,6 @@
 #include <afxres.h>
 #include <commctrl.h>
 
-#define PROP_WIDTH 100
-
 ID_ICON ICON "noname.ico"
 
 ID_DLG_INPUT DIALOG 0, 0, 200, 126

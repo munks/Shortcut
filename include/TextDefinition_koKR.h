@@ -8,6 +8,10 @@
 #define WINDOW_LOG_NAME				L"DualityFrame_Shortcut_Log"
 #define WINDOW_LOG_CAPTION			L"Log"
 
+//Window List
+#define WINDOW_LIST_NAME			L"DualityFrame_Shortcut_List"
+#define WINDOW_LIST_CAPTION			L"URL Protocols"
+
 //ID_BUTTON_RUN
 #define BUTTON_RUN_CAPTION			L"실행"
 #define BUTTON_RUN_TOOLTIP			L"바로가기 실행"
@@ -23,6 +27,10 @@
 //ID_BUTTON_DELETE
 #define BUTTON_DELETE_CAPTION		L"삭제"
 #define BUTTON_DELETE_TOOLTIP		L"선택된 바로가기 삭제"
+
+//ID_BUTTON_LIST
+#define BUTTON_LIST_CAPTION			L"URL 목록"
+#define BUTTON_LIST_TOOLTIP			L"URL 프로토콜 목록 표시"
 
 //ID_LIST
 #define LIST_TOOLTIP				L"바로가기 목록"

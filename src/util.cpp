@@ -100,7 +100,8 @@ int Util_GetIconInShortcut (LPCWSTR key, LPCWSTR type, HICON* icon) {
 			swprintf(value, L"%ls\\shell\\open\\command", type);
 		}
 		if (RegGetValue(HKEY_CLASSES_ROOT, value, NULL, RRF_RT_REG_SZ, NULL, &id, &(len = 260)) != ERROR_SUCCESS) {
-			return 1;
+			*icon = LoadIcon(NULL, IDI_APPLICATION);
+			return 0;
 		}
 		if (id[0] == L'"') {
 			wcscpy(id, &id[1]);

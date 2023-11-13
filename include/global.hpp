@@ -6,7 +6,8 @@ main.cpp - m_#Var
 menu.cpp - me_#Var
 control.cpp - c_#Var
 util.cpp - u_#Var
-log.cpp - l_#Var
+log.cpp - lo_#Var
+list.cpp - li_#Var
 process.cpp - p_#Var
 */
 
@@ -32,6 +33,7 @@ process.cpp - p_#Var
 #include "control.hpp"
 #include "menu.hpp"
 #include "log.hpp"
+#include "list.hpp"
 #include "util.hpp"
 #include "process.hpp"
 #include "vk.hpp"

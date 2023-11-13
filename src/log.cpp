@@ -2,16 +2,16 @@
 
 //Variable
 
-HWND l_window;
-HWND l_logmsg;
+HWND lo_window;
+HWND lo_logmsg;
 
 //Internal
 
 void AddTextToLogEdit (LPCWSTR message) {
-	int lastPos = Edit_GetTextLength(l_logmsg);
+	int lastPos = Edit_GetTextLength(lo_logmsg);
 	
-	Edit_SetSel(l_logmsg, lastPos, lastPos);
-	Edit_ReplaceSel(l_logmsg, message);
+	Edit_SetSel(lo_logmsg, lastPos, lastPos);
+	Edit_ReplaceSel(lo_logmsg, message);
 }
 
 LRESULT CALLBACK LogProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
@@ -57,19 +57,19 @@ void Log_CreateWindow (HWND main) {
 	Util_CheckError((void*)MAKELONG(RegisterClassEx(&wc), 0));
 	
 	//Create Log Window
-	l_window = CreateWindowEx(WS_EX_TOPMOST, WINDOW_LOG_NAME, WINDOW_LOG_CAPTION,
+	lo_window = CreateWindowEx(WS_EX_TOPMOST, WINDOW_LOG_NAME, WINDOW_LOG_CAPTION,
 							  WS_POPUP | WS_CAPTION | WS_SYSMENU,
 							  CW_USEDEFAULT, CW_USEDEFAULT, 400, 300,
 							  main, NULL, m_hInstance, NULL);
-	Util_CheckError(l_window);
+	Util_CheckError(lo_window);
 	
 	//Create Log Message Box
-	l_logmsg = CreateWindow(L"EDIT", NULL,
+	lo_logmsg = CreateWindow(L"EDIT", NULL,
 							WS_BORDER | WS_CHILD | WS_VISIBLE | WS_VSCROLL |
 							ES_MULTILINE | ES_READONLY,
 							10,10,370,250,
-							l_window, (HMENU)ID_EDIT_LOG, m_hInstance, NULL);
+							lo_window, (HMENU)ID_EDIT_LOG, m_hInstance, NULL);
 	
-	SetWindowFont(l_logmsg, m_font, FALSE);
-	Util_CheckError(l_logmsg);
+	SetWindowFont(lo_logmsg, m_font, FALSE);
+	Util_CheckError(lo_logmsg);
 }
