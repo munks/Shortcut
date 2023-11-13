@@ -224,7 +224,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine
 	
 	//Add System Tray Notify Icon
 	Menu_RemoveNotifyIcon();
-	Menu_AddNotifyIcon(m_main);
+	Menu_AddNotifyIcon();
 	Menu_MakeMenu();
 	
 	//Get Registry (INIT)

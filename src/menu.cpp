@@ -3,10 +3,8 @@
 //Variable
 
 HMENU me_menu;
-GUID me_guid = {0xEF0D4B8F, 0xE581, 0x49D5, {0x99, 0x45, 0x28, 0xBF, 0x1F, 0xF5, 0x82, 0x85}};
 MENUITEMINFO me_mi = {sizeof(MENUITEMINFO), 0, 0, 0, 0, 0, 0, 0, 0, NULL, 0, 0};
-NOTIFYICONDATA me_nid = {sizeof(NOTIFYICONDATA), NULL, 0, 0, WM_ICONNOTIFY, NULL, WINDOW_MAIN_CAPTION,
-						0, 0, {0}, 0, {0}, 0, me_guid, NULL};
+NOTIFYICONDATA me_nid = {};
 int me_infoCnt = 0;
 UINT_PTR me_timer = 0;
 
@@ -88,17 +86,19 @@ void Menu_ExecuteNotifyEvent (WORD message) {
 	}
 }
 
-void Menu_AddNotifyIcon (HWND main) {
-	me_nid.hWnd = main;
-	me_nid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP | NIF_GUID;
+void Menu_AddNotifyIcon () {
+	me_nid.cbSize = sizeof(NOTIFYICONDATA);
+	me_nid.hWnd = m_main;
+	me_nid.uID = 0;
+	me_nid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
+	me_nid.uCallbackMessage = WM_ICONNOTIFY;
+	wcscpy(me_nid.szTip, WINDOW_MAIN_CAPTION);
 	me_nid.hIcon = LoadIcon(m_hInstance, MAKEINTRESOURCE(ID_ICON));
 	
 	Shell_NotifyIcon(NIM_ADD, &me_nid);
 }
 
 void Menu_RemoveNotifyIcon () {
-	me_nid.uFlags = NIF_GUID;
-	
 	Shell_NotifyIcon(NIM_DELETE, &me_nid);
 }
 
@@ -108,7 +108,7 @@ void Menu_InfoNotifyIcon (LPCWSTR title, LPCWSTR info, int len) {
 	
 	//Init
 	me_infoCnt++;
-	me_nid.uFlags = NIF_INFO | NIF_GUID;
+	me_nid.uFlags = NIF_INFO;
 	me_nid.dwInfoFlags = NIIF_INFO | NIIF_NOSOUND;
 	
 	//Add Info
