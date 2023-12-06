@@ -139,6 +139,17 @@ void Process_CheckHotkey (HWND hwnd, DWORD hotkey) {
 	return;
 }
 
+void Process_EndDialog (HWND hwnd, int code) {
+	if (code == 0) {
+		Edit_GetText(GetDlgItem(hwnd, ID_EDIT_NAME), p_name, 260);
+		Edit_GetText(GetDlgItem(hwnd, ID_EDIT_LINK), p_link, 260);
+		Edit_GetText(GetDlgItem(hwnd, ID_EDIT_PARAM), p_param, 260);
+	}
+	m_hkDisable = FALSE;
+	p_ctrl = NULL;
+	EndDialog(hwnd, code);
+}
+
 LRESULT CALLBACK InputProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	WindowEventCase(uMsg) {
 		WindowEvent(WM_INITDIALOG) {
@@ -155,18 +166,13 @@ LRESULT CALLBACK InputProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			DialogEventCase(EventDialog()) {
 				DialogEvent(ID_BUTTON_DLG_OK) {
 					if (EventMessage() == BN_CLICKED) {
-						Edit_GetText(GetDlgItem(hwnd, ID_EDIT_NAME), p_name, 260);
-						Edit_GetText(GetDlgItem(hwnd, ID_EDIT_LINK), p_link, 260);
-						Edit_GetText(GetDlgItem(hwnd, ID_EDIT_PARAM), p_param, 260);
-						m_hkDisable = FALSE;
-						EndDialog(hwnd, 0);
+						Process_EndDialog(hwnd, 0);
 						return DefWindowProc(hwnd, uMsg, wParam, lParam);
 					}
 				}
 				DialogEvent(ID_BUTTON_DLG_CANCEL) {
 					if (EventMessage() == BN_CLICKED) {
-						m_hkDisable = FALSE;
-						EndDialog(hwnd, 1);
+						Process_EndDialog(hwnd, 1);
 						return DefWindowProc(hwnd, uMsg, wParam, lParam);
 					}
 				}
@@ -205,8 +211,7 @@ LRESULT CALLBACK InputProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			return DefWindowProc(hwnd, uMsg, wParam, lParam);
 		}
 		WindowEvent(WM_CLOSE) {
-			m_hkDisable = FALSE;
-			EndDialog(hwnd, 1);
+			Process_EndDialog(hwnd, 1);
 			return 0;
 		}
 	}
@@ -277,4 +282,16 @@ void Process_AddShortcut (LPWSTR key) {
 
 void Process_DeleteShortcut (LPWSTR key) {
 	Util_RemoveSetting(key);
+}
+
+void Process_ShowListWindow (LPWSTR key) {
+	RECT rect;
+	
+	if(!IsWindowVisible(li_window)) {
+		//Set List Window Position
+		GetWindowRect(m_main, &rect);
+		SetWindowPos(li_window, HWND_TOPMOST, rect.left + 20, rect.top + 20, 0, 0, SWP_NOSIZE);
+	}
+	//Show List Window
+	ShowWindow(li_window, SW_SHOW);
 }

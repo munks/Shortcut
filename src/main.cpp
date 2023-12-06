@@ -46,7 +46,6 @@ void Main_VersionCheck (DWORD ver) {
 LRESULT CALLBACK MainProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	wchar_t key[50];
 	POINT cursor;
-	RECT rect;
 	
 	#ifdef _DEBUG
 	//Debug_ConvertWindowMessage(uMsg);
@@ -80,11 +79,12 @@ LRESULT CALLBACK MainProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 					if (c_listViewIndex == -1) { break; }
 					ListView_GetItemText(GetDlgItem(hwnd, ID_LIST), c_listViewIndex, 0, key, 50);
 				}
+				DialogEvent(ID_BUTTON_LIST)
+				DialogEvent(ID_BUTTON_DISABLE)
 				DialogEvent(ID_BUTTON_ADD) {
 					if (EventMessage() == BN_CLICKED) {
 						//Change Window Property
 						void (*executionFunc)(LPWSTR) = NULL;
-						
 						
 						switch (EventDialog()) {
 							case ID_BUTTON_RUN:
@@ -95,23 +95,21 @@ LRESULT CALLBACK MainProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 								executionFunc = Process_AddShortcut; break;
 							case ID_BUTTON_DELETE:
 								executionFunc = Process_DeleteShortcut; break;
+							case ID_BUTTON_LIST:
+								executionFunc = Process_ShowListWindow; break;
+							case ID_BUTTON_DISABLE:
+								m_hkDisable = Button_GetCheck((HWND)lParam);
+								Menu_SetMenuState(TN_MENU_DISABLE, m_hkDisable);
+								RegSetValueEx(m_regset, L"Disabled", 0, REG_DWORD, (BYTE*)&m_hkDisable, sizeof(BOOL));
+								return 0;
 						}
 						
 						if (executionFunc == NULL) { break; }
+						
 						//Selected Process Execution
 						executionFunc(key);
 						Control_RefreshListView(hwnd);
 					}
-					break;
-				}
-				DialogEvent(ID_BUTTON_LIST) {
-					if(!IsWindowVisible(li_window)) {
-						//Set List Window Position
-						GetWindowRect(m_main, &rect);
-						SetWindowPos(li_window, HWND_TOPMOST, rect.left + 20, rect.top + 20, 0, 0, SWP_NOSIZE);
-					}
-					//Show List Window
-					ShowWindow(li_window, SW_SHOW);
 					break;
 				}
 				DialogEvent(ID_BUTTON_ICON) {
@@ -147,7 +145,7 @@ LRESULT CALLBACK MainProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		WindowEvent(WM_HOTKEY) {
 			if (!m_hkDisable) {
 				Process_RunShortcut(Util_GetHotkeyReg(wParam));
-			} else {
+			} else if (p_ctrl) {
 				SendMessage(p_ctrl, WM_HOTKEYCHANGE, 0, lParam);
 			}
 			break;
@@ -163,7 +161,6 @@ LRESULT CALLBACK MainProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 }
 
 int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
-	BYTE regval;
 	DWORD size;
 	WNDCLASSEX wc = {};
 	
@@ -230,6 +227,9 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine
 	//Create Button (DELETE)
 	CreateButtonMacro(m_main, DELETE, false, 380, 140, 90, 30);
 	
+	//Create Button (DISABLE)
+	CreateButtonMacro(m_main, DISABLE, true, 380, 290, 90, 30);
+	
 	//Create Button (LIST)
 	CreateButtonMacro(m_main, LIST, false, 380, 330, 90, 30);
 	
@@ -243,6 +243,11 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine
 	
 	//Get Registry (INIT)
 	Menu_SetMenuState(TN_MENU_INIT, !RegGetValue(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", L"Shortcut", RRF_RT_REG_SZ, NULL, NULL, NULL));
+	
+	//Get Registry (DISABLE)
+	RegGetValue(m_regset, NULL, L"Disabled", RRF_RT_REG_DWORD, NULL, &m_hkDisable, &(size = 4));
+	Menu_SetMenuState(TN_MENU_DISABLE, m_hkDisable);
+	Button_SetCheck(GetDlgItem(m_main, ID_BUTTON_DISABLE), m_hkDisable);
 	
 	//Show Window (Main)
 	UpdateWindow(m_main);

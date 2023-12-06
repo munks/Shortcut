@@ -74,13 +74,25 @@ void Menu_ExecuteNotifyEvent (WORD message) {
 			ShowWindow(lo_window, SW_SHOW);
 			break;
 		}
+		case TN_MENU_DISABLE:
 		case TN_MENU_INIT: {
 			me_mi.fMask = MIIM_STATE;
 			GetMenuItemInfo(me_menu, MAKELONG(ID_BUTTON_ICON, message), false, &me_mi);
 			me_mi.fState ^= MFS_CHECKED;
 			SetMenuItemInfo(me_menu, MAKELONG(ID_BUTTON_ICON, message), false, &me_mi);
 			changed = ((me_mi.fState & MFS_CHECKED) == MFS_CHECKED) ? BST_CHECKED : BST_UNCHECKED;
-			SetStartup(changed);
+			switch (message) {
+				case TN_MENU_DISABLE: {
+					Button_SetCheck(GetDlgItem(m_main, ID_BUTTON_DISABLE), changed);
+					m_hkDisable = changed;
+					RegSetValueEx(m_regset, L"Disabled", 0, REG_DWORD, (BYTE*)&m_hkDisable, sizeof(BOOL));
+					break;
+				}
+				case TN_MENU_INIT: {
+					SetStartup(changed);
+					break;
+				}
+			}
 			break;
 		}
 	}
@@ -130,6 +142,7 @@ void Menu_MakeMenu () {
 	me_menu = CreatePopupMenu();
 	
 	AppendMenu(me_menu, MF_STRING | MF_UNCHECKED, MAKELONG(ID_BUTTON_ICON, TN_MENU_INIT), MENU_START_TEXT);
+	AppendMenu(me_menu, MF_STRING | MF_UNCHECKED, MAKELONG(ID_BUTTON_ICON, TN_MENU_DISABLE), MENU_DISABLE_TEXT);
 	AppendMenu(me_menu, MF_SEPARATOR, 0, NULL);
 	AppendMenu(me_menu, MF_STRING | MF_UNCHECKED, MAKELONG(ID_BUTTON_ICON, TN_MENU_LOG), MENU_LOG_TEXT);
 	AppendMenu(me_menu, MF_SEPARATOR, 0, NULL);

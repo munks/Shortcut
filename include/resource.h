@@ -13,10 +13,11 @@
 #define ID_BUTTON_MODIFY		101
 #define ID_BUTTON_ADD			102
 #define ID_BUTTON_DELETE		103
-#define ID_BUTTON_LIST		104
-#define ID_BUTTON_ICON			105
-#define ID_BUTTON_DLG_OK		106
-#define ID_BUTTON_DLG_CANCEL	107
+#define ID_BUTTON_DISABLE		104
+#define ID_BUTTON_LIST			105
+#define ID_BUTTON_ICON			106
+#define ID_BUTTON_DLG_OK		107
+#define ID_BUTTON_DLG_CANCEL	108
 
 #define ID_EDIT_LOG				200
 #define ID_EDIT_NAME			201
@@ -31,10 +32,9 @@
 
 #define ID_HOTKEY				400
 
-#define TN_MENU_MOVE			0
-#define TN_MENU_CLIP			1
-#define TN_MENU_INIT			2
-#define TN_MENU_CLOSE			3
-#define TN_MENU_LOG				4
+#define TN_MENU_INIT			0
+#define TN_MENU_DISABLE			1
+#define TN_MENU_CLOSE			2
+#define TN_MENU_LOG				3
 
 #define TN_CLICK				100

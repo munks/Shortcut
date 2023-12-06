@@ -28,6 +28,10 @@
 #define BUTTON_DELETE_CAPTION		L"Delete"
 #define BUTTON_DELETE_TOOLTIP		L"Delete Selected Shortcut"
 
+//ID_BUTTON_DISABLE
+#define BUTTON_DISABLE_CAPTION		L"Hotkey Disable"
+#define BUTTON_DISABLE_TOOLTIP		L"Prevent Hotkey Activate"
+
 //ID_BUTTON_LIST
 #define BUTTON_LIST_CAPTION			L"URL List"
 #define BUTTON_LIST_TOOLTIP			L"View URL Protocol List"
@@ -44,6 +48,7 @@
 
 //Menu
 #define MENU_START_TEXT				L"Add Startup"
+#define MENU_DISABLE_TEXT			L"Hotkey Disable"
 #define MENU_LOG_TEXT				L"Log"
 #define MENU_CLOSE_TEXT				L"Close"
 

@@ -28,6 +28,10 @@
 #define BUTTON_DELETE_CAPTION		L"삭제"
 #define BUTTON_DELETE_TOOLTIP		L"선택된 바로가기 삭제"
 
+//ID_BUTTON_DISABLE
+#define BUTTON_DISABLE_CAPTION		L"비활성화"
+#define BUTTON_DISABLE_TOOLTIP		L"단축키 작동 방지"
+
 //ID_BUTTON_LIST
 #define BUTTON_LIST_CAPTION			L"URL 목록"
 #define BUTTON_LIST_TOOLTIP			L"URL 프로토콜 목록 표시"
@@ -44,6 +48,7 @@
 
 //Menu
 #define MENU_START_TEXT				L"시작 프로그램에 추가"
+#define MENU_DISABLE_TEXT			L"단축키 비할성화"
 #define MENU_LOG_TEXT				L"로그"
 #define MENU_CLOSE_TEXT				L"닫기"
 
