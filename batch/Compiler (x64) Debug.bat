@@ -14,6 +14,6 @@ rem Resource Compile
 windres resource.rc -O coff ../bin/resource.res -I ../Include
 
 rem Executable Compile
-x86_64-w64-mingw32-g++ -I../include %FILES% -o ../bin/Shortcut.exe ../bin/resource.res -mwindows -mconsole -D_DEBUG
+x86_64-w64-mingw32-g++ -I../include %FILES% -o ../bin/Shortcut.exe ../bin/resource.res -static-libgcc -static-libstdc++ -mwindows -mconsole -D_DEBUG
 
 pause

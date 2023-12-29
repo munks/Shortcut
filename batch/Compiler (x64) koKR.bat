@@ -14,6 +14,6 @@ rem Resource Compile
 windres resource.rc -O coff ../bin/resource.res -I ../Include --define LANG=KOKR --define UNICODE
 
 rem Executable Compile
-x86_64-w64-mingw32-g++ -I../include %FILES% -o ../bin/Shortcut.exe ../bin/resource.res -mwindows -Wno-int-to-pointer-cast -Wno-write-strings -DLANG=KOKR
+x86_64-w64-mingw32-g++ -I../include %FILES% -o ../bin/Shortcut.exe ../bin/resource.res -mwindows -static-libgcc -static-libstdc++ -Wno-int-to-pointer-cast -Wno-write-strings -DLANG=KOKR
 
 pause

@@ -25,9 +25,9 @@ bool CheckErrorFunc (void* checkVar, LPCSTR file, int line, LPCSTR targetValName
 //External
 
 void Util_Init () {
-	u_hicon = new HICON[100];
+	u_hicon = (HICON*)malloc(100 * sizeof(HICON));
 	u_hiconCnt = 0;
-	u_hotkey = new wchar_t*[100];
+	u_hotkey = (wchar_t**)malloc(100 * sizeof(wchar_t*));
 	u_hotkeyCnt = 0;
 	ZeroMemory(u_hotkeyUse, sizeof(u_hotkeyUse));
 }
@@ -40,7 +40,7 @@ void Util_DataRelease () {
 	
 	for (int i = 0; i < u_hotkeyCnt; i++) {
 		UnregisterHotKey(m_main, i);
-		delete u_hotkey[i];
+		free(u_hotkey[i]);
 	}
 	u_hotkeyCnt = 0;
 	ZeroMemory(u_hotkeyUse, sizeof(u_hotkeyUse));
@@ -124,7 +124,7 @@ void Util_AddHotkey (DWORD hotkey, LPCWSTR key) {
 	UINT flag = MOD_NOREPEAT;
 	
 	if (!hotkey) { return; }
-	u_hotkey[u_hotkeyCnt] = new wchar_t[wcslen(key) + 1];
+	u_hotkey[u_hotkeyCnt] = (wchar_t*)malloc((wcslen(key) + 1) * sizeof(wchar_t));
 	wcscpy(u_hotkey[u_hotkeyCnt], key);
 	u_hotkeyUse[ak][vk] = true;
 	if (ak & HOTKEYF_ALT) { flag |= MOD_ALT; }
