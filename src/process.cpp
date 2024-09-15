@@ -11,6 +11,7 @@ DWORD p_hotkey;
 HWND p_ctrl;
 int p_currentFunc;
 int p_enableFlag;
+OPENFILENAME p_ofn;
 
 #define FLAG_NAME (1 << 0)
 #define FLAG_TYPE (1 << 1)
@@ -160,6 +161,7 @@ LRESULT CALLBACK InputProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			Process_CheckKey(hwnd, GetDlgItem(hwnd, ID_EDIT_NAME));
 			Process_CheckType(hwnd, GetDlgItem(hwnd, ID_EDIT_LINK));
 			Process_CheckHotkey(hwnd, SendDlgItemMessage(hwnd, ID_HOTKEY, HKM_GETHOTKEY, 0, 0));
+			p_ofn.hwndOwner = hwnd;
 			return DefWindowProc(hwnd, uMsg, wParam, lParam);
 		}
 		WindowEvent(WM_COMMAND) {
@@ -169,12 +171,25 @@ LRESULT CALLBACK InputProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 						Process_EndDialog(hwnd, 0);
 						return DefWindowProc(hwnd, uMsg, wParam, lParam);
 					}
+					break;
 				}
 				DialogEvent(ID_BUTTON_DLG_CANCEL) {
 					if (EventMessage() == BN_CLICKED) {
 						Process_EndDialog(hwnd, 1);
 						return DefWindowProc(hwnd, uMsg, wParam, lParam);
 					}
+					break;
+				}
+				DialogEvent(ID_BUTTON_DLG_FIND) {
+					if (EventMessage() == BN_CLICKED) {
+						if(GetOpenFileName(&p_ofn) != 0){
+							Edit_SetText(GetDlgItem(hwnd, ID_EDIT_LINK), p_ofn.lpstrFile);
+							Process_CheckKey(hwnd, GetDlgItem(hwnd, ID_EDIT_NAME));
+							Process_CheckType(hwnd, GetDlgItem(hwnd, ID_EDIT_LINK));
+							Process_CheckHotkey(hwnd, SendDlgItemMessage(hwnd, ID_HOTKEY, HKM_GETHOTKEY, 0, 0));
+						}
+					}
+					break;
 				}
 				DialogEvent(ID_EDIT_NAME) {
 					if (EventMessage() == EN_UPDATE) {
@@ -221,6 +236,18 @@ LRESULT CALLBACK InputProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
 //External
 
+void Process_Init () {
+	ZeroMemory(&p_ofn, sizeof(p_ofn));
+	
+	p_ofn.lStructSize = sizeof(p_ofn);
+	p_ofn.lpstrFilter = L"All Files\0*.*\0\0";
+	p_ofn.lpstrFile = (LPWSTR)malloc(MAX_PATH * sizeof(wchar_t));
+	p_ofn.lpstrFile[0] = L'\0';
+	p_ofn.nMaxFile = MAX_PATH;
+	p_ofn.lpstrTitle = DLG_INPUT_FIND_OFN;
+	p_ofn.Flags = OFN_NONETWORKBUTTON | OFN_NOVALIDATE | OFN_NODEREFERENCELINKS;
+}
+
 void Process_RunShortcut (LPWSTR key) {
 	DWORD len;
 	
@@ -263,7 +290,6 @@ void Process_ModifyShortcut (LPWSTR key) {
 void Process_AddShortcut (LPWSTR key) {
 	HKEY reg;
 	
-	p_key = key;
 	p_currentFunc = FUNC_ADD;
 	
 	if (!DialogBox(m_hInstance, MAKEINTRESOURCE(ID_DLG_INPUT), m_main, InputProc)) {
@@ -276,7 +302,8 @@ void Process_AddShortcut (LPWSTR key) {
 		RegSetValueEx(reg, L"Param", 0, REG_SZ, (BYTE*)p_param, (wcslen(p_param) + 1) * 2);
 		RegSetValueEx(reg, L"Hotkey", 0, REG_DWORD, (BYTE*)&p_hotkey, sizeof(DWORD));
 		RegCloseKey(reg);
-		Log_Message(LOG_FORMAT_NORMAL, LOG_EXECUTE_ADD, key, NULL);
+		
+		Log_Message(LOG_FORMAT_NORMAL, LOG_EXECUTE_ADD, p_name, NULL);
 	}
 }
 

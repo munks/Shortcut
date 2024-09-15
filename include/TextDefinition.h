@@ -64,6 +64,7 @@
 #define DLG_INPUT_ADD				L"Add"
 #define DLG_INPUT_MODIFY			L"Modify"
 #define DLG_INPUT_CANCEL			L"Cancel"
+#define DLG_INPUT_FIND_OFN			L"Select"
 
 //Virtual Key
 #define VK_NONE						L"(None)"

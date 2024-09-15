@@ -190,9 +190,10 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine
 	m_font = CreateFont(16,0,0,0,0,0,0,0,HANGEUL_CHARSET,3,2,1,
 						VARIABLE_PITCH | FF_ROMAN, L"Ebrima");
 	
-	//Control Init
+	//Initialize
 	Control_InitDLL();
 	Util_Init();
+	Process_Init();
 	
 	//Create Window Class (Main)
 	wc.cbSize = sizeof(wc);

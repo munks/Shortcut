@@ -18,6 +18,7 @@
 #define ID_BUTTON_ICON			106
 #define ID_BUTTON_DLG_OK		107
 #define ID_BUTTON_DLG_CANCEL	108
+#define ID_BUTTON_DLG_FIND		109
 
 #define ID_EDIT_LOG				200
 #define ID_EDIT_NAME			201
@@ -29,6 +30,7 @@
 #define ID_STATIC_LINK			301
 #define ID_STATIC_TYPE			302
 #define ID_STATIC_PARAM			303
+#define ID_STATIC_HOTKEY		304
 
 #define ID_HOTKEY				400
 

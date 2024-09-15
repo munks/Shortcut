@@ -64,6 +64,7 @@
 #define DLG_INPUT_ADD				L"추가"
 #define DLG_INPUT_MODIFY			L"수정"
 #define DLG_INPUT_CANCEL			L"취소"
+#define DLG_INPUT_FIND_OFN			L"선택"
 
 //Virtual Key
 #define VK_NONE						L"(없음)"

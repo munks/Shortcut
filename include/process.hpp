@@ -1,5 +1,6 @@
 #pragma once
 
+void Process_Init ();
 void Process_RunShortcut (LPWSTR);
 void Process_ModifyShortcut (LPWSTR);
 void Process_AddShortcut (LPWSTR);
