@@ -47,8 +47,21 @@ process.cpp - p_#Var
 
 #define _repeat(v, i) for (unsigned int v = 0; v < i; v++)
 
-//Variable Definition
+//Macro - Case Switch
+#define WindowEventCase(c)	switch(c)
+#define DialogEventCase(c)	switch(c)
+#define NotifyEventCase(c)	switch(c)
+#define WindowEvent(e)		case e:
+#define DialogEvent(e)		case e:
+#define NotifyEvent(e)		case e:
 
+//Macro - Useful Combine
+#define EventDialog()		LOWORD(wParam)
+#define EventMessage()		HIWORD(wParam)
+#define ListViewMessage()	((LPNMHDR)lParam)->code
+#define ListViewDialog()	((LPNMHDR)lParam)->hwndFrom
+
+//Variable Definition
 #define WM_ICONNOTIFY 0x8001
 #define WM_HOTKEYCHANGE 0x8002
 #define FUNC_ADD 0
